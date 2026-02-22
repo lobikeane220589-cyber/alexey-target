@@ -1,28 +1,8 @@
 'use client';
 
-import { useEffect } from 'react';
-import { usePathname, useSearchParams } from 'next/navigation';
 import Script from 'next/script';
 
-const FB_PIXEL_ID = process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID;
-
 export default function FacebookPixel() {
-    const pathname = usePathname();
-    const searchParams = useSearchParams();
-
-    useEffect(() => {
-        if (FB_PIXEL_ID) {
-            import('react-facebook-pixel')
-                .then((x) => x.default)
-                .then((ReactPixel) => {
-                    ReactPixel.init(FB_PIXEL_ID!);
-                    ReactPixel.pageView();
-                });
-        }
-    }, [pathname, searchParams]);
-
-    if (!FB_PIXEL_ID) return null;
-
     return (
         <>
             <Script
@@ -38,11 +18,20 @@ export default function FacebookPixel() {
             t.src=v;s=b.getElementsByTagName(e)[0];
             s.parentNode.insertBefore(t,s)}(window, document,'script',
             'https://connect.facebook.net/en_US/fbevents.js');
-            fbq('init', '${FB_PIXEL_ID}');
+            fbq('init', '1421929805459128');
             fbq('track', 'PageView');
           `,
                 }}
             />
+            <noscript>
+                <img
+                    height="1"
+                    width="1"
+                    style={{ display: 'none' }}
+                    src="https://www.facebook.com/tr?id=1421929805459128&ev=PageView&noscript=1"
+                    alt=""
+                />
+            </noscript>
         </>
     );
 }
